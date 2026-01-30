@@ -53,7 +53,7 @@ const Footer:React.FC = () => {
       <div className='w-full flex items-center justify-between mt-10'>
         other links
         <div>
-          <h4 className='font-bold text-[#2C1A00] font-arsenal text-sm'>Copyright @ 2026 Bnubon craft's all rights reserved</h4>
+          <h4 className='font-bold text-[#2C1A00] font-arsenal text-sm'>Copyright @ 2026 Bnubon craft&apos;s all rights reserved</h4>
         </div>
       </div>
     </footer>
