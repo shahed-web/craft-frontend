@@ -1,63 +1,98 @@
-import Link from 'next/link'
-import React from 'react'
+import Link from "next/link";
+import React from "react";
 
-const Footer:React.FC = () => {
+/* ---------------- Data ---------------- */
+
+const footerLinks = [
+  {
+    title: "Company Info",
+    links: [
+      { label: "About Benubon", href: "/" },
+      { label: "Social Responsibility", href: "/" },
+      { label: "Blogs", href: "/" },
+    ],
+  },
+  {
+    title: "Help & Support",
+    links: [
+      { label: "Order Policy", href: "/" },
+      { label: "Shipping Info", href: "/" },
+      { label: "Size Chart", href: "/" },
+    ],
+  },
+  {
+    title: "Customer Support",
+    links: [
+      { label: "Contact Us", href: "/" },
+      { label: "Notices", href: "/" },
+    ],
+  },
+];
+
+/* ---------------- Footer ---------------- */
+
+const Footer: React.FC = () => {
   return (
-    <footer className='py-10 px-6 md:px-30 min-h-[300px] bg-[#FFF7EF]'>
-      <div>
-        <div className='flex flex-col md:flex-row gap-8'>
+    <footer className="bg-[#FFF7EF] px-6 py-14 text-sm">
+      <div className="mx-auto max-w-7xl">
+        {/* Top */}
+        <div className="grid gap-10 md:grid-cols-4">
+          {/* Brand */}
           <div>
-            <h1 className="text-4xl text-green-800">Handicraft</h1>
+            <h1 className="font-arsenal text-4xl text-green-800">
+              Handicraft
+            </h1>
+            <p className="mt-3 max-w-xs text-[#82705D]">
+              Sustainable handmade products crafted with care for people and
+              the planet.
+            </p>
           </div>
-          <div>
-            <h3 className="text-lg text-green-800 underline underline-offset-8 uppercase">Company info</h3>
-            <div className="flex flex-col flex-start gap-1 mt-3">
-              <Link href="/">
-                About Benubon
-              </Link>
-              <Link href="/">
-                Social Responsibility
-              </Link>
-              <Link href="/">
-                Blogs
-              </Link>
-            </div>
-          </div>
-          <div>
-            <h3 className="text-lg text-green-800 underline underline-offset-8 uppercase">help & support</h3>
-            <div className="flex flex-col flex-start mt-3 gap-1">
-              <Link href="/">
-                Order policy
-              </Link>
-              <Link href="/">
-                Shipping info
-              </Link>
-              <Link href="/">
-                Size chart
-              </Link>
-            </div>
-          </div>
-          <div>
-            <h3 className="text-lg text-green-800 underline underline-offset-8 uppercase">Customer support</h3>
-            <div className="flex flex-col flex-start mt-3 gap-1">
-              <Link href="/">
-                Contact us
-              </Link>
-              <Link href="/">
-                Notices
-              </Link>
-            </div>
-          </div>
+
+          {/* Link Columns */}
+          {footerLinks.map((section) => (
+            <nav key={section.title} aria-label={section.title}>
+              <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-green-800">
+                {section.title}
+              </h3>
+
+              <ul className="space-y-2">
+                {section.links.map((link) => (
+                  <li key={link.label}>
+                    <Link
+                      href={link.href}
+                      className="
+                        text-[#2C1A00]/80 transition
+                        hover:text-green-700
+                        focus:outline-none focus:ring-2 focus:ring-green-700/30
+                      "
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))}
         </div>
-      </div>
-      <div className='w-full flex items-center justify-between mt-10'>
-        other links
-        <div>
-          <h4 className='font-bold text-[#2C1A00] font-arsenal text-sm'>Copyright @ 2026 Bnubon craft&apos;s all rights reserved</h4>
+
+        {/* Divider */}
+        <div className="my-10 h-px w-full bg-green-800/20" />
+
+        {/* Bottom */}
+        <div className="flex flex-col items-center justify-between gap-4 text-xs md:flex-row">
+          <p className="text-[#2C1A00]/70">
+            © {new Date().getFullYear()} Benubon Crafts. All rights reserved.
+          </p>
+
+          {/* Placeholder for future links */}
+          <div className="flex gap-4 text-[#2C1A00]/70">
+            <Link href="/">Privacy Policy</Link>
+            <Link href="/">Terms</Link>
+          </div>
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

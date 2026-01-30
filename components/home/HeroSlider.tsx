@@ -148,7 +148,7 @@ export default function HeroSlider() {
       </div>
 
       {/* Pagination Dots */}
-      <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 gap-2">
+      <div className="absolute bottom-6 left-1/5 flex -translate-x-1/2 gap-2">
         {slides.map((_, i) => (
           <button
             key={i}
