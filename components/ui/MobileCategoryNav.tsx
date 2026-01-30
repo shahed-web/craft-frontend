@@ -1,35 +1,39 @@
 "use client"
 
-interface Props {
-  categories: string[]
-  active: string
-  onChange: (category: string) => void
-}
+import { motion } from "framer-motion"
+import Link from "next/link"
 
-const MobileCategoryNav: React.FC<Props> = ({
-  categories,
-  active,
-  onChange,
-}) => {
+const categories = [
+  { label: "All", slug: "/products" },
+  { label: "Baskets", slug: "/products/basket" },
+  { label: "Jute", slug: "/products/jute" },
+  { label: "Sacks", slug: "/products/sack" },
+  { label: "Decor", slug: "/products/decor" },
+  { label: "Cane", slug: "/products/cane" },
+]
+
+const MobileCategoryNav = () => {
   return (
-    <div className="md:hidden sticky top-0 z-40 bg-white border-b">
-      <div className="flex gap-3 overflow-x-auto px-4 py-3 no-scrollbar">
+    <motion.div
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      className="md:hidden mb-6 overflow-x-auto"
+    >
+      <div className="flex gap-3 whitespace-nowrap px-1">
         {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => onChange(cat)}
-            className={`whitespace-nowrap rounded-full px-4 py-1.5 text-sm transition
-              ${
-                active === cat
-                  ? "bg-green-700 text-white"
-                  : "bg-gray-100 text-gray-700"
-              }`}
+          <Link
+            key={cat.slug}
+            href={cat.slug}
+            className="px-4 py-2 rounded-full text-sm font-medium
+              bg-[#FFF7EF] text-green-800 border border-green-200
+              active:scale-95 transition"
           >
-            {cat}
-          </button>
+            {cat.label}
+          </Link>
         ))}
       </div>
-    </div>
+    </motion.div>
   )
 }
 

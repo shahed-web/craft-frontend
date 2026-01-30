@@ -72,11 +72,6 @@ export default function ProductSection() {
           />
         ))}
       </motion.div>
-
-      {/* CTA */}
-      {/* <div className="mt-10 flex justify-center">
-        <Button path="/products" label="View our collections" />
-      </div> */}
     </section>
   );
 }

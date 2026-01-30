@@ -47,3 +47,27 @@ export const fadeUpItem: Variants = {
     },
   },
 }
+
+export const revealContainer: Variants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.15,
+    },
+  },
+}
+
+export const revealItem: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 24,
+  },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.45,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  },
+}
