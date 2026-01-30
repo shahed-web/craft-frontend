@@ -79,7 +79,7 @@ const AboutContent: React.FC = () => {
 const AboutSection: React.FC = () => {
   return (
     <section className="relative overflow-hidden">
-      <div className="flex flex-col gap-10 rounded-br-[3rem] bg-green-700 px-6 py-12 md:flex-row md:px-20 lg:rounded-br-[5rem]">
+      <div className="flex flex-col gap-10 rounded-br-[3rem] bg-gradient-to-r from-green-700 to-green-600 px-6 py-12 md:flex-row md:px-20 lg:rounded-br-[5rem]">
         {/* Image */}
         <div className="relative mx-auto w-full max-w-sm md:w-1/2 lg:w-1/3">
           <Image

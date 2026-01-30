@@ -1,41 +1,77 @@
 "use client"
-import Link from 'next/link'
-import React from 'react'
-import { FaEnvelope, FaFacebook, FaLinkedin, FaPhone, FaSquareInstagram } from 'react-icons/fa6'
 
-const Topbar:React.FC = () => {
+import Link from "next/link"
+import { memo } from "react"
+import {
+  FaEnvelope,
+  FaFacebookF,
+  FaLinkedinIn,
+  FaPhone,
+  FaInstagram,
+} from "react-icons/fa"
+
+const Topbar = () => {
   return (
-    <div className='text-xs bg-green-700 w-full px-20 py-2 text-white font-open hidden md:flex justify-between items-center'>
-      
-      <div className='flex items-center gap-4'>
-        <div className='flex gap-2 items-center'>
-          <FaPhone />
-          <span>+123-456-7890</span>
+    <div className="hidden md:block bg-gradient-to-r from-green-700 to-green-600 text-white text-xs">
+      <div className="mx-auto max-w-7xl px-6 py-2 flex items-center justify-between">
+        
+        {/* Left: Contact Info */}
+        <div className="flex items-center gap-6">
+          <a
+            href="tel:+1234567890"
+            className="flex items-center gap-2 hover:text-green-200 transition"
+          >
+            <FaPhone className="text-[11px]" />
+            <span>+123-456-7890</span>
+          </a>
+
+          <a
+            href="mailto:contact@benubon.com"
+            className="flex items-center gap-2 hover:text-green-200 transition"
+          >
+            <FaEnvelope className="text-[11px]" />
+            <span>contact@benubon.com</span>
+          </a>
         </div>
-        <div className='flex gap-2 items-center'>
-          <FaEnvelope />
-          <span>contact@benubon.com</span>
+
+        {/* Right: Social Links */}
+        <div className="flex items-center gap-3">
+          <span className="text-[11px] opacity-90">Follow us:</span>
+
+          <SocialLink href="/" label="Facebook">
+            <FaFacebookF />
+          </SocialLink>
+
+          <SocialLink href="/" label="Instagram">
+            <FaInstagram />
+          </SocialLink>
+
+          <SocialLink href="/" label="LinkedIn">
+            <FaLinkedinIn />
+          </SocialLink>
         </div>
-      </div>
-      
-      <div>
-        {/* <span>Contact us and we will reach you shortly</span> */}
-      </div>
-      
-      <div className='text-white flex items-center gap-2'>
-        <span>Follow us:</span>
-        <Link href="/">
-        <FaFacebook />
-        </Link>
-        <Link href="/">
-        <FaSquareInstagram  />
-        </Link>
-        <Link href="/"> 
-        <FaLinkedin  />
-        </Link>
       </div>
     </div>
   )
 }
 
-export default Topbar
+/* Reusable Social Icon */
+const SocialLink = ({
+  href,
+  label,
+  children,
+}: {
+  href: string
+  label: string
+  children: React.ReactNode
+}) => (
+  <Link
+    href={href}
+    aria-label={label}
+    className="hover:text-green-200 transition text-sm"
+  >
+    {children}
+  </Link>
+)
+
+export default memo(Topbar)
