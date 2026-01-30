@@ -22,7 +22,7 @@ const ProductSection:React.FC = () => {
       </div>
       <div className='w-full flex flex-col items-center justify-center'>
         <div className='mt-10'>
-          <Button path="/products" name="View our collections" />
+          <Button path="/products" label="View our collections" />
         </div>
       </div>
     </section>

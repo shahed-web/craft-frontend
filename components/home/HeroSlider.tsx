@@ -1,140 +1,164 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Button from "../ui/Button";
 
-const slides = [
+type Slide = {
+  title: string;
+  description: string;
+  image: string;
+};
+
+const slides: Slide[] = [
   {
-    title: "Redefine sustainable living",
+    title: "Redefine Sustainable Living",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos sit iusto deleniti ad, consequuntur delectus!",
+      "Beautifully crafted eco-friendly products designed for modern homes.",
     image: "/images/slide-1.jpg",
   },
   {
     title: "Design Meets Performance",
     description:
-      "environmental friendly products that do not compromise on style or functionality.",
+      "Sustainable materials without compromising style or durability.",
     image: "/images/slide-2.jpg",
   },
   {
-    title: "Hand crafted Quality",
+    title: "Handcrafted With Purpose",
     description:
-      "environmental friendly products that do not compromise on style or functionality.",
-    image: "/images/slide-2.jpg",
+      "Ethically made products that support artisans and the planet.",
+    image: "/images/slide-1.jpg",
   },
 ];
 
-export default function HeroSlider() {
-  const [active, setActive] = useState(0);
-  const startX = useRef<number | null>(null);
+const slideVariants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? 60 : -60,
+    opacity: 0,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+  },
+  exit: (direction: number) => ({
+    x: direction > 0 ? -60 : 60,
+    opacity: 0,
+  }),
+};
 
-  /* ------------------ Auto slide ------------------ */
+export default function HeroSlider() {
+  const [[active, direction], setActive] = useState<[number, number]>([0, 1]);
+  const [paused, setPaused] = useState(false);
+
+  /* Auto slide */
   useEffect(() => {
-    const interval = setInterval(() => {
-      setActive((prev) => (prev + 1) % slides.length);
+    if (paused) return;
+
+    const id = setInterval(() => {
+      paginate(1);
     }, 5000);
 
-    return () => clearInterval(interval);
-  }, []);
+    return () => clearInterval(id);
+  }, [paused]);
 
-  /* ------------------ Swipe logic ------------------ */
-  const onTouchStart = (x: number) => {
-    startX.current = x;
+  const paginate = (dir: number) => {
+    setActive(([prev]) => [
+      (prev + dir + slides.length) % slides.length,
+      dir,
+    ]);
   };
 
-  const onTouchEnd = (x: number) => {
-    if (startX.current === null) return;
-
-    const diff = startX.current - x;
-
-    if (diff > 50) {
-      // swipe left
-      setActive((prev) => (prev + 1) % slides.length);
-    } else if (diff < -50) {
-      // swipe right
-      setActive((prev) =>
-        prev === 0 ? slides.length - 1 : prev - 1
-      );
-    }
-
-    startX.current = null;
-  };
+  const slide = slides[active];
 
   return (
     <div
-      className="relative w-full min-h-100 overflow-hidden"
-      onTouchStart={(e) => onTouchStart(e.touches[0].clientX)}
-      onTouchEnd={(e) => onTouchEnd(e.changedTouches[0].clientX)}
-      onMouseDown={(e) => onTouchStart(e.clientX)}
-      onMouseUp={(e) => onTouchEnd(e.clientX)}
+      className="relative overflow-hidden"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
     >
-      <div className="mx-auto grid min-h-100 max-w-7xl grid-cols-1 items-center gap-12 px-6 lg:grid-cols-2 lg:px-10">
+      <div className="mx-auto grid min-h-[60vh] max-w-7xl grid-cols-1 items-center gap-12 px-6 lg:grid-cols-2">
         {/* LEFT CONTENT */}
-        <div className="relative min-h-[400px] overflow-hidden">
-          {slides.map((slide, index) => (
-            <div
-              key={index}
-              className={`
-                absolute inset-0 flex flex-col items-start justify-center transition-all duration-1000 ease-out
-                ${active === index
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-10 pointer-events-none"}
-              `}
+        <AnimatePresence mode="wait" custom={direction}>
+          <motion.div
+            key={active}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="flex flex-col items-start justify-center"
+          >
+            <motion.h1
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="text-4xl font-arsenal text-[#2C1A00] sm:text-5xl"
             >
-              <h1 className="text-3xl mx-auto md:mx-0 text-[#2C1A00] font-arsenal leading-tight sm:text-4xl lg:text-5xl">
-                {slide.title}
-              </h1>
-              <p className="mt-4 max-w-md text-center text-[#82705D] md:text-start font-rosario text-base text-gray-600 sm:text-lg md:text-xl">
-                {slide.description}
-              </p>
-              <div className="mt-5 mx-auto md:mx-0">
-              <Button />
-              </div>
-            </div>
-          ))}
-        </div>
+              {slide.title}
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="mt-4 max-w-md font-rosario text-lg text-[#82705D]"
+            >
+              {slide.description}
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="mt-6"
+            >
+              <Button label="Shop Collection" />
+            </motion.div>
+          </motion.div>
+        </AnimatePresence>
 
         {/* RIGHT IMAGE */}
-        <div className="relative flex min-h-[300px] items-center justify-center lg:min-h-[420px]">
-          {/* Decorative static div */}
-          <div className="absolute right-0 md:left-0 h-[95%] w-[95%] md:w-[95%] md:shadow-lg rounded-2xl bg-green-100 z-0" />
+        <div className="relative flex h-[420px] items-center justify-center">
+          <div className="absolute inset-0 rounded-2xl bg-green-100" />
 
-          {slides.map((slide, index) => (
-            <div
-              key={index}
-              className={`
-                absolute z-10 transition-all duration-1000 ease-out
-                ${active === index
-                  ? "opacity-100 translate-x-0"
-                  : "opacity-0 translate-x-50 pointer-events-none"}
-              `}
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+              key={active}
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="relative z-10 h-full w-full"
             >
               <Image
                 src={slide.image}
                 alt={slide.title}
-                width={420}
-                height={420}
-                className="h-auto w-[440px] sm:w-[440px] lg:w-[550px] rounded-2xl"
-                priority={index === 0}
+                fill
+                priority
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="rounded-2xl object-cover"
               />
-            </div>
-          ))}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
 
-      {/* Mobile pagination dots */}
-      {/* <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 gap-2">
-        {slides.map((_, index) => (
+      {/* Pagination Dots */}
+      <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 gap-2">
+        {slides.map((_, i) => (
           <button
-            key={index}
-            onClick={() => setActive(index)}
-            className={`h-2 w-2 rounded-full transition
-              ${active === index ? "bg-indigo-600" : "bg-gray-300"}
+            key={i}
+            onClick={() => setActive([i, i > active ? 1 : -1])}
+            className={`h-2.5 w-2.5 rounded-full transition
+              ${i === active ? "bg-green-700" : "bg-green-300"}
             `}
           />
         ))}
-      </div> */}
+      </div>
     </div>
   );
 }

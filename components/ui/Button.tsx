@@ -2,14 +2,14 @@ import Link from 'next/link'
 import React from 'react'
 
 interface ButtonProps {
-  name?: string,
+  label?: string,
   path?: string
 }
 
-const Button:React.FC<ButtonProps> = ({name, path}) => {
+const Button:React.FC<ButtonProps> = ({label, path}) => {
   return (
     <Link href={path || "/"} className='bg-green-700 text-white font-arsenal px-5 py-2 rounded-tl-4xl rounded-br-4xl'>
-      {name || "View Our Collections"}
+      {label || "View Our Collections"}
     </Link>
   )
 }
