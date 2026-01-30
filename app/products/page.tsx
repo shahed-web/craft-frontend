@@ -1,4 +1,3 @@
-import CategoryNav from '@/components/ui/CategoryNav'
 import ProductCard from '@/components/ui/ProductCard'
 import React from 'react'
 
