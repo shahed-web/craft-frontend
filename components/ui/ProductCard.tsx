@@ -4,7 +4,6 @@ import Image from "next/image"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { Product } from "@/data/products"
-import { cardVariants } from "@/lib/motion"
 
 interface Props {
   product: Product
@@ -13,20 +12,26 @@ interface Props {
 const ProductCard: React.FC<Props> = ({ product }) => {
   return (
     <motion.div
-      variants={cardVariants}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
       whileHover={{ y: -6 }}
       className="bg-[#FFF7EF] rounded-xl p-3 shadow-sm hover:shadow-lg transition"
     >
       <Link href={product.slug}>
+        {/* Image */}
         <div className="relative aspect-square overflow-hidden rounded-lg">
           <Image
             src={product.image}
             alt={product.title}
             fill
             className="object-cover transition-transform duration-500 hover:scale-105"
+            sizes="(max-width: 768px) 50vw, 25vw"
           />
         </div>
 
+        {/* Content */}
         <div className="mt-3 text-center">
           <h3 className="font-arsenal text-lg font-semibold">
             {product.title}
