@@ -1,28 +1,47 @@
-import Image from 'next/image'
-import Link from 'next/link'
-import React from 'react'
+"use client"
 
-interface ProductCardProps {
-  title?: string
-  button?: boolean
+import Image from "next/image"
+import Link from "next/link"
+import { motion } from "framer-motion"
+import { Product } from "@/data/products"
+import { cardVariants } from "@/lib/motion"
+
+interface Props {
+  product: Product
 }
-const ProductCard: React.FC<ProductCardProps> = ({title, button}) => {
+
+const ProductCard: React.FC<Props> = ({ product }) => {
   return (
-    <div className='bg-[#FFF7EF] rounded-lg p-2'>
-      <div>
-        <Image
-          src='/images/slide-2.jpg'
-          alt='Product Image'
-          width={800}
-          height={800}
-          style={{objectFit: "contain", borderRadius:"5px", width:"100%", height: "100%"}}
-        />
-      </div>
-      <div className='flex flex-col justify-center items-center'>
-        <h3 className='font-arsenal text-xl text-center mt-2'>{title}</h3>
-        {button && (<Link href="/products/1" className='mx-0 text-sm text-green-800 text-center mt-1'>View Details</Link>)}
-      </div>
-    </div>
+    <motion.div
+      variants={cardVariants}
+      whileHover={{ y: -6 }}
+      className="bg-[#FFF7EF] rounded-xl p-3 shadow-sm hover:shadow-lg transition"
+    >
+      <Link href={product.slug}>
+        <div className="relative aspect-square overflow-hidden rounded-lg">
+          <Image
+            src={product.image}
+            alt={product.title}
+            fill
+            className="object-cover transition-transform duration-500 hover:scale-105"
+          />
+        </div>
+
+        <div className="mt-3 text-center">
+          <h3 className="font-arsenal text-lg font-semibold">
+            {product.title}
+          </h3>
+
+          <p className="text-xs text-gray-600 mt-1 line-clamp-2">
+            {product.description}
+          </p>
+
+          <span className="inline-block mt-2 text-sm text-green-800 font-medium">
+            View Details →
+          </span>
+        </div>
+      </Link>
+    </motion.div>
   )
 }
 

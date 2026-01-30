@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import React from "react";
 import {
@@ -6,13 +7,15 @@ import {
   FaRecycle,
   FaRegThumbsUp,
 } from "react-icons/fa6";
+import { motion } from "framer-motion"
+import { fadeUpContainer, fadeUpItem } from "@/lib/motion"
 
 type AboutItem = {
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-  highlight?: boolean;
-};
+  title: string
+  description: string
+  icon: React.ReactNode
+  highlight?: boolean
+}
 
 const aboutItems: AboutItem[] = [
   {
@@ -41,13 +44,23 @@ const aboutItems: AboutItem[] = [
     icon: <FaLeaf size={22} />,
     highlight: true,
   },
-];
+]
 
 const AboutContent: React.FC = () => {
   return (
-    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+    <motion.div
+      variants={fadeUpContainer}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, margin: "-80px" }}
+      className="grid grid-cols-1 gap-6 sm:grid-cols-2"
+    >
       {aboutItems.map((item, index) => (
-        <div key={index} className="flex gap-4">
+        <motion.div
+          key={index}
+          variants={fadeUpItem}
+          className="flex gap-4"
+        >
           {/* Icon */}
           <div
             className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full
@@ -70,18 +83,28 @@ const AboutContent: React.FC = () => {
               {item.description}
             </p>
           </div>
-        </div>
+        </motion.div>
       ))}
-    </div>
-  );
-};
+    </motion.div>
+  )
+}
+
 
 const AboutSection: React.FC = () => {
   return (
     <section className="relative overflow-hidden">
-      <div className="flex flex-col gap-10 rounded-br-[3rem] bg-gradient-to-r from-green-700 to-green-600 px-6 py-12 md:flex-row md:px-20 lg:rounded-br-[5rem]">
+      <motion.div
+        variants={fadeUpContainer}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: "-100px" }}
+        className="flex flex-col gap-10 rounded-br-[3rem] bg-gradient-to-r from-green-700 to-green-600 px-6 py-12 md:flex-row md:px-20 lg:rounded-br-[5rem]"
+      >
         {/* Image */}
-        <div className="relative mx-auto w-full max-w-sm md:w-1/2 lg:w-1/3">
+        <motion.div
+          variants={fadeUpItem}
+          className="relative mx-auto w-full max-w-sm md:w-1/2 lg:w-1/3"
+        >
           <Image
             src="/images/about-section.png"
             width={500}
@@ -90,10 +113,13 @@ const AboutSection: React.FC = () => {
             className="h-auto w-full object-contain"
             priority
           />
-        </div>
+        </motion.div>
 
         {/* Content */}
-        <div className="flex w-full flex-col justify-center gap-6 md:w-1/2 lg:w-2/3">
+        <motion.div
+          variants={fadeUpItem}
+          className="flex w-full flex-col justify-center gap-6 md:w-1/2 lg:w-2/3"
+        >
           <h2 className="text-xl font-amatic uppercase tracking-widest text-[#FFF7EF]">
             What we do
           </h2>
@@ -109,10 +135,9 @@ const AboutSection: React.FC = () => {
           </p>
 
           <AboutContent />
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </section>
-  );
-};
-
+  )
+}
 export default AboutSection;

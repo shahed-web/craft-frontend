@@ -1,11 +1,10 @@
-// data/products.ts
 export type Product = {
-  id: string;
-  title: string;
-  image: string;
-  description: string;
-  slug: string;
-};
+  id: string
+  title: string
+  image: string
+  description: string
+  slug: string
+}
 
 export const products: Product[] = [
   {
@@ -38,16 +37,16 @@ export const products: Product[] = [
   },
   {
     id: "bag",
-    title: "Tote bags",
+    title: "Tote Bags",
     image: "/images/product-5.jpg",
-    description: "Durable sacks built for storage and transport.",
-    slug: "/products/jute-products",
+    description: "Stylish eco-friendly tote bags for daily use.",
+    slug: "/products/tote-bags",
   },
   {
     id: "cane",
-    title: "Cane products",
+    title: "Cane Products",
     image: "/images/product-6.jpg",
-    description: "Durable sacks built for storage and transport.",
-    slug: "/products/jute-products",
+    description: "Natural cane-crafted products with timeless appeal.",
+    slug: "/products/cane",
   },
-];
+]
