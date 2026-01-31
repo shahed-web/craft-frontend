@@ -5,28 +5,28 @@ import Image from "next/image";
 import Link from "next/link";
 
 type Props = {
-  product: {
-    id: string;
+  category: {
+    id: number;
     title: string;
     image: string;
     description: string;
     slug: string;
   };
-  activeId: string | null;
-  setActiveId: (id: string | null) => void;
+  activeId: number | null;
+  setActiveId: (id: number | null) => void;
 };
 
 export default function ProductCardSecondary({
-  product,
+  category,
   activeId,
   setActiveId,
 }: Props) {
-  const isActive = activeId === product.id;
+  const isActive = activeId === category.id;
 
   return (
     <motion.div
       layout
-      onClick={() => setActiveId(isActive ? null : product.id)}
+      onClick={() => setActiveId(isActive ? null : category.id)}
       className={`
         w-[220px] sm:w-[260px]
         rounded-xl bg-white p-3 cursor-pointer
@@ -36,15 +36,15 @@ export default function ProductCardSecondary({
     >
       <motion.div layout className="relative h-[160px] sm:h-[200px] rounded-lg overflow-hidden">
         <Image
-          src={product.image}
-          alt={product.title}
+          src={category.image}
+          alt={category.title}
           fill
           className="object-cover"
         />
       </motion.div>
 
       <motion.h3 layout className="mt-3 text-center font-arsenal text-base sm:text-lg">
-        {product.title}
+        {category.title}
       </motion.h3>
 
       {isActive && (
@@ -54,11 +54,11 @@ export default function ProductCardSecondary({
           className="mt-3 text-center"
         >
           <p className="mb-3 text-xs sm:text-sm text-[#82705D]">
-            {product.description}
+            {category.description}
           </p>
 
           <Link
-            href={product.slug}
+            href={category.slug}
             className="inline-block rounded-md px-4 py-2 text-xs sm:text-sm
               border border-green-700 text-green-700
               hover:bg-green-700 hover:text-white transition"

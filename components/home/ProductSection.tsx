@@ -2,10 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
-import { products } from "@/data/products";
 import ProductCardSecondary from "../ui/ProductCardSecondary";
 import { FaChevronLeft, FaChevronRight, FaArrowRightLong } from "react-icons/fa6";
 import Link from "next/link";
+import { categories } from "@/data/categories";
+
 
 
 const CARD_WIDTH = 260;
@@ -14,10 +15,10 @@ const GAP = 24;
 export default function ProductSection() {
   const controls = useAnimation();
   const trackRef = useRef<HTMLDivElement>(null);
-  const [activeId, setActiveId] = useState<string | null>(null);
+  const [activeId, setActiveId] = useState<number | null>(null);
   const [index, setIndex] = useState(0);
 
-  const maxIndex = products.length - 1;
+  const maxIndex = categories.length - 1;
 
   /* Move carousel */
   const slideTo = (i: number) => {
@@ -33,7 +34,7 @@ export default function ProductSection() {
   /* Auto-focus active card */
   useEffect(() => {
     if (!activeId) return;
-    const idx = products.findIndex((p) => p.id === activeId);
+    const idx = categories.findIndex((p) => p.id === activeId);
     if (idx !== -1) slideTo(idx);
   }, [activeId]);
 
@@ -97,16 +98,16 @@ export default function ProductSection() {
             animate={controls}
             className="flex gap-6 cursor-grab active:cursor-grabbing"
           >
-            {products.map((product, i) => (
+            {categories.map((category, i) => (
               <motion.div
-                key={product.id}
+                key={category.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
               >
                 <ProductCardSecondary
-                  product={product}
+                  category={category}
                   activeId={activeId}
                   setActiveId={setActiveId}
                 />
