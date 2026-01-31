@@ -27,41 +27,41 @@ export default function ProductCardSecondary({
     <motion.div
       layout
       onClick={() => setActiveId(isActive ? null : product.id)}
-      className={`relative cursor-pointer rounded-xl  p-3
-        ${isActive ? "z-20 w-[320px]" : "w-[220px]"}
+      className={`
+        w-[220px] sm:w-[260px]
+        rounded-xl bg-white p-3 cursor-pointer
+        transition-shadow
+        ${isActive ? "shadow-xl scale-[1.02]" : "shadow-md"}
       `}
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >
-      <motion.div layout className="relative h-[200px] w-full">
+      <motion.div layout className="relative h-[160px] sm:h-[200px] rounded-lg overflow-hidden">
         <Image
           src={product.image}
           alt={product.title}
           fill
-          className="rounded-lg object-cover"
+          className="object-cover"
         />
       </motion.div>
 
-      <motion.h3
-        layout
-        className="mt-3 text-center font-arsenal text-xl"
-      >
+      <motion.h3 layout className="mt-3 text-center font-arsenal text-base sm:text-lg">
         {product.title}
       </motion.h3>
 
       {isActive && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.15 }}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
           className="mt-3 text-center"
         >
-          <p className="mb-3 text-sm text-[#82705D]">
+          <p className="mb-3 text-xs sm:text-sm text-[#82705D]">
             {product.description}
           </p>
 
           <Link
             href={product.slug}
-            className="inline-block rounded-md text-green-700 px-4 py-2 text-sm bg-white border border-green-700 hover:bg-green-700 hover:text-white transition"
+            className="inline-block rounded-md px-4 py-2 text-xs sm:text-sm
+              border border-green-700 text-green-700
+              hover:bg-green-700 hover:text-white transition"
           >
             View Details
           </Link>

@@ -5,6 +5,8 @@ import { motion } from 'framer-motion'
 import BlogCard from '../ui/BlogCard'
 import Button from '../ui/Button'
 import { blogs } from '@/data/blog'
+import { FaArrowRightLong } from 'react-icons/fa6'
+import Link from 'next/link'
 
 const BlogSection: React.FC = () => {
   return (
@@ -51,7 +53,15 @@ const BlogSection: React.FC = () => {
         transition={{ delay: 0.25 }}
         className="mt-12 flex justify-center"
       >
-        <Button />
+        <Link 
+          href="/products" 
+          className='mt-4 text-gray-600 transition
+                hover:text-green-700
+                after:block after:h-[2px] after:w-0 after:bg-green-700
+                after:transition-all after:duration-300 hover:after:w-full
+        '>
+          Read more News and blogs <FaArrowRightLong className="inline-block ml-1"/>
+        </Link>
       </motion.div>
     </section>
   )
