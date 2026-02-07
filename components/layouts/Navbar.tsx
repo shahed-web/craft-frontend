@@ -1,17 +1,19 @@
-"use client";
+"use client"
 
-import Link from "next/link";
-import React from "react";
-import { FiSearch } from "react-icons/fi";
+import Link from "next/link"
+import React, { useState } from "react"
+import { FiSearch, FiMenu, FiX } from "react-icons/fi"
+import { motion, AnimatePresence } from "framer-motion"
 
 /* ---------------- Data ---------------- */
 
 const mainNav = [
+  { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "Products", href: "/products" },
   { label: "Blogs", href: "/blogs" },
   { label: "Contact", href: "/contact" },
-];
+]
 
 const productCategories = [
   "All Products",
@@ -23,21 +25,16 @@ const productCategories = [
   "Jute Products",
   "Hyacinth Products",
   "Cane Products",
-];
+]
 
 /* ---------------- Components ---------------- */
 
-const SearchBar: React.FC = () => {
+const SearchBar = ({ fullWidth = false }: { fullWidth?: boolean }) => {
   return (
-    <div className="relative w-64">
-      <label htmlFor="search" className="sr-only">
-        Search products
-      </label>
-
+    <div className={`relative ${fullWidth ? "w-full" : "w-64"}`}>
       <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
 
       <input
-        id="search"
         type="text"
         placeholder="Search products..."
         className="
@@ -48,78 +45,116 @@ const SearchBar: React.FC = () => {
         "
       />
     </div>
-  );
-};
+  )
+}
 
-const MainNav: React.FC = () => {
+const MainNav = ({ onClick }: { onClick?: () => void }) => {
   return (
-    <nav aria-label="Main navigation">
-      <ul className="flex items-center justify-center gap-6 text-sm font-medium tracking-wide">
-        {mainNav.map((item) => (
-          <li key={item.label}>
-            <Link
-              href={item.href}
-              className="text-gray-700 transition hover:text-green-700"
-            >
-              {item.label}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  );
-};
+    <ul className="flex flex-col md:flex-row md:items-center gap-5 md:gap-6 text-sm font-medium tracking-wide">
+      {mainNav.map((item) => (
+        <li key={item.label}>
+          <Link
+            href={item.href}
+            onClick={onClick}
+            className="text-gray-700 transition hover:text-green-700"
+          >
+            {item.label}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  )
+}
 
-const ProductNav: React.FC = () => {
+const ProductNav = () => {
   return (
     <nav
       aria-label="Product categories"
       className="border-t border-gray-200 bg-gray-50"
     >
-      <ul className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-8 gap-y-3 px-6 py-4 text-[11px] font-semibold uppercase tracking-wider">
-        {productCategories.map((category) => (
-          <li key={category}>
-            <Link
-              href={`/products?category=${encodeURIComponent(category)}`}
-              className="
-                text-gray-600 transition
-                hover:text-green-700
-                after:block after:h-[2px] after:w-0 after:bg-green-700
-                after:transition-all after:duration-300 hover:after:w-full
-              "
-            >
-              {category}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      {/* Mobile: horizontal scroll */}
+      <div className="overflow-x-auto">
+        <ul className="flex md:flex-wrap min-w-max md:min-w-0 items-center md:justify-center gap-x-6 md:gap-x-8 gap-y-3 px-4 md:px-6 py-3 text-[11px] font-semibold uppercase tracking-wider">
+          {productCategories.map((category) => (
+            <li key={category}>
+              <Link
+                href={`/products?category=${encodeURIComponent(category)}`}
+                className="
+                  whitespace-nowrap
+                  text-gray-600 transition
+                  hover:text-green-700
+                  after:block after:h-[2px] after:w-0 after:bg-green-700
+                  after:transition-all after:duration-300 hover:after:w-full
+                "
+              >
+                {category}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
     </nav>
-  );
-};
+  )
+}
 
 /* ---------------- Navbar ---------------- */
 
 const Navbar: React.FC = () => {
+  const [open, setOpen] = useState(false)
+
   return (
-    <header className="sticky top-0 z-50 hidden bg-white shadow-sm md:block">
+    <header className="sticky top-0 z-50 bg-white shadow-sm">
       {/* Top bar */}
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 md:px-6 py-4 md:py-5">
         {/* Logo */}
-        <Link href="/" className="text-3xl font-arsenal">
+        <Link href="/" className="text-2xl md:text-3xl font-arsenal">
           Handicraft
         </Link>
 
-        {/* Main Nav */}
-        <MainNav />
+        {/* Desktop Nav */}
+        <div className="hidden md:block">
+          <MainNav />
+        </div>
 
-        {/* Search */}
-        <SearchBar />
+        {/* Desktop Search */}
+        <div className="hidden md:block">
+          <SearchBar />
+        </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          className="md:hidden text-2xl text-gray-700"
+          onClick={() => setOpen(!open)}
+          aria-label="Toggle menu"
+        >
+          {open ? <FiX /> : <FiMenu />}
+        </button>
       </div>
 
-      {/* Product categories */}
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="md:hidden border-t border-gray-200 overflow-hidden"
+          >
+            <div className="px-4 py-5 space-y-5 bg-white">
+              <MainNav onClick={() => setOpen(false)} />
+
+              {/* Mobile Search */}
+              <SearchBar fullWidth />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Product Categories (responsive) */}
       <ProductNav />
     </header>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar
