@@ -53,7 +53,7 @@ const BlogSection: React.FC = () => {
         className="mt-12 flex justify-center"
       >
         <Link 
-          href="/products" 
+          href="/blogs" 
           className='mt-4 text-gray-600 transition
                 hover:text-green-700
                 after:block after:h-[2px] after:w-0 after:bg-green-700
