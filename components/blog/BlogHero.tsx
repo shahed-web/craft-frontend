@@ -30,6 +30,7 @@ export default function BlogHero({ title, image }: Props) {
               { label: "Blog", href: "/blogs" },
               { label: title },
             ]}
+            textWhite
           />
         </div>
       </div>

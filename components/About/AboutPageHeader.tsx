@@ -27,6 +27,7 @@ export default function AboutPageHeader() {
             { label: "Home", href: "/" },
             { label: "About" },
           ]}
+          textWhite
         />
       </div>
     </section>
