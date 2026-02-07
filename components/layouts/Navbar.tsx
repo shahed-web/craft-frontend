@@ -7,7 +7,7 @@ import { FiSearch } from "react-icons/fi";
 /* ---------------- Data ---------------- */
 
 const mainNav = [
-  { label: "About", href: "/" },
+  { label: "About", href: "/about" },
   { label: "Products", href: "/products" },
   { label: "Blogs", href: "/blogs" },
   { label: "Contact", href: "/contact" },
